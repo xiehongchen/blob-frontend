@@ -10,7 +10,12 @@
         </div>
       </div>
       <div class="card-box">
-        <div class="card" v-for="item in blogList" @click="goDetail(item.id)" :key="item.id">
+        <div
+          class="card"
+          v-for="item in newBlogList"
+          @click="goDetail(item.id)"
+          :key="item.id"
+        >
           <div class="card-img">
             <img src="@/assets/vue.svg" />
           </div>
@@ -32,7 +37,12 @@
                 {{ item.time }}
               </div>
               <div class="tags">
-                <el-tag class="tag" v-for="i in item.tag" @click.stop="clickTag(i)" :key="i">
+                <el-tag
+                  class="tag"
+                  v-for="i in item.tag"
+                  @click.stop="clickTag(i)"
+                  :key="i"
+                >
                   {{ i }}
                 </el-tag>
               </div>
@@ -40,18 +50,28 @@
           </div>
         </div>
       </div>
-      <!-- <el-pagination
+      <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
         class="pagination"
         background
-        layout="prev, pager, next"
+        :page-sizes="[5, 10, 20, 30]"
+        layout="total, sizes, prev, pager, next, jumper"
         :total="blogList.length"
-      /> -->
+        @size-change="sizeChange"
+        @current-change="currentChange"
+      />
     </div>
     <div class="blog-right">
       <div class="blog-classification">
         <div class="class-title">分类</div>
         <div class="class-box">
-          <div class="class-item" v-for="item in classList" @click="clickClass(item.title)" :key="item.id">
+          <div
+            class="class-item"
+            v-for="item in classList"
+            @click="clickClass(item.title)"
+            :key="item.id"
+          >
             <div class="class-img">
               <img src="@/assets/vue.svg" />
             </div>
@@ -68,12 +88,18 @@
         <div class="label-title">标签</div>
         <div class="container">
           <div class="tag-box">
-            <span class="tag-item" v-for="item in styleTag" :key="item.id" :style="{
-              fontWeight: item.weight,
-              fontSize: item.size + 'px',
-              color: item.color,
-              height: item.size + 'px',
-            }" @click="clickTag(item.title)">
+            <span
+              class="tag-item"
+              v-for="item in styleTag"
+              :key="item.id"
+              :style="{
+                fontWeight: item.weight,
+                fontSize: item.size + 'px',
+                color: item.color,
+                height: item.size + 'px',
+              }"
+              @click="clickTag(item.title)"
+            >
               {{ item.title }}
             </span>
           </div>
@@ -84,260 +110,51 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
-import { useRouter } from 'vue-router';
-const number = ref(111)
-const blogList = reactive([
-  {
-    id: 1,
-    title: '123',
-    introduction:
-      '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑dsad大大大大adddd啊实打实大师大师d啊实打实大师dddddddddsad撒啊实打实大师大多asdasss',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 2,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 3,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 4,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 5,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 6,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 7,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 8,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 9,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 10,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 11,
-    title: '11',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-])
-const classList = reactive([
-  {
-    id: 1,
-    imgUrl: '',
-    title: 'Java',
-    number: 11,
-  },
-  {
-    id: 2,
-    imgUrl: '',
-    title: 'JavaScript',
-    number: 11,
-  },
-  {
-    id: 3,
-    imgUrl: '',
-    title: 'Python',
-    number: 11,
-  },
-  {
-    id: 4,
-    imgUrl: '',
-    title: 'c++',
-    number: 11,
-  },
-  {
-    id: 5,
-    imgUrl: '',
-    title: 'c++',
-    number: 11,
-  },
-  {
-    id: 6,
-    imgUrl: '',
-    title: 'c++',
-    number: 11,
-  },
-  {
-    id: 7,
-    imgUrl: '',
-    title: 'c++',
-    number: 11,
-  },
-])
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { blogList, tagList, classList } from "@/utils/user.ts";
+const number = ref(111);
+const newBlogList = ref([{}]);
 const clickTag = (item: string) => {
-  selectblog('', item)
-}
+  selectblog("", item);
+};
 const clickClass = (item: string) => {
-  selectblog(item, '')
-}
+  selectblog(item, "");
+};
 function selectblog(classType?: string, label?: string) {
-  console.log(classType)
-  console.log(label)
+  console.log(classType);
+  console.log(label);
 }
-const router = useRouter()
+const router = useRouter();
 const goDetail = (id: number) => {
-  router.push(`/detail?id=${id}`)
-}
-const tagList = reactive([
-  {
-    id: 0,
-    title: 'css',
-    number: 12,
-  },
-  {
-    id: 1,
-    title: 'css',
-    number: 12,
-  },
-  {
-    id: 2,
-    title: 'js',
-    number: 16,
-  },
-  {
-    id: 3,
-    title: 'ts',
-    number: 4,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-  {
-    id: 5,
-    title: 'c',
-    number: 15,
-  },
-  {
-    id: 6,
-    title: 'py',
-    number: 25,
-  },
-  {
-    id: 7,
-    title: 'c++',
-    number: 5,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-])
+  router.push(`/detail?id=${id}`);
+};
+
 const styleTag = ref([
   {
     id: 0,
-    title: '',
+    title: "",
     number: 0,
     size: 0,
     weight: 0,
-    color: '',
+    color: "",
   },
-])
-let weight = 0
-let size = 0
+]);
+let weight = 0;
+let size = 0;
 onMounted(() => {
+  newBlogList.value = blogList.slice(0, 5);
+  console.log(newBlogList.value);
   tagList.forEach((item) => {
-    console.log(item)
     if (item.number < 5) {
-      size = 10
-      weight = 300
+      size = 10;
+      weight = 300;
     } else if (item.number < 10) {
-      size = 15
-      weight = 400
+      size = 15;
+      weight = 400;
     } else {
-      size = 20
-      weight = 600
+      size = 20;
+      weight = 600;
     }
     styleTag.value.push({
       id: item.id,
@@ -346,17 +163,27 @@ onMounted(() => {
       size: size,
       weight: weight,
       color:
-        'rgb(' +
-        parseInt(Math.random() * 255 + '') +
-        ',' +
-        parseInt(Math.random() * 255 + '') +
-        ',' +
-        parseInt(Math.random() * 255 + '') +
-        ')',
-    })
-  })
-  styleTag.value.shift()
-})
+        "rgb(" +
+        parseInt(Math.random() * 255 + "") +
+        "," +
+        parseInt(Math.random() * 255 + "") +
+        "," +
+        parseInt(Math.random() * 255 + "") +
+        ")",
+    });
+  });
+  styleTag.value.shift();
+});
+const currentPage = ref(1);
+const pageSize = ref(5);
+const sizeChange = (val: number) => {
+  console.log(`${val} items per page`);
+  newBlogList.value = blogList.slice(0, val);
+};
+const currentChange = (val: number) => {
+  console.log(`current page: ${val}`);
+  newBlogList.value = blogList.slice(val * 5 - 5, val * 5);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -375,7 +202,7 @@ onMounted(() => {
     width: 50%;
     height: 100%;
     padding: 20px;
-    border: 30px;
+    box-sizing: border-box;
     background-color: #fff;
     border-radius: 10px;
     overflow: scroll;
@@ -400,6 +227,7 @@ onMounted(() => {
           padding: 5px;
           width: 150px;
           height: 100%;
+          box-sizing: border-box;
 
           img {
             width: 100%;
@@ -430,6 +258,7 @@ onMounted(() => {
             height: 20px;
             margin: 5px;
             display: flex;
+            align-items: center;
 
             .user-img {
               width: 20px;
@@ -468,7 +297,7 @@ onMounted(() => {
     }
 
     .pagination {
-      padding: 10px 0;
+      padding-top: 20px;
       display: flex;
       width: 100%;
       justify-content: center;
@@ -479,13 +308,16 @@ onMounted(() => {
     flex-direction: column;
     width: 20%;
     padding: 0 20px;
+    position: fixed;
+    right: 30px;
 
     .blog-classification {
       background-color: #fff;
       border-radius: 10px;
-      height: 300px;
+      height: 280px;
       margin-bottom: 20px;
       padding: 5px;
+      overflow: hidden;
 
       .class-title {
         text-align: center;
