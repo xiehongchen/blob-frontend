@@ -1,14 +1,16 @@
 <template>
   <el-affix :offset="0">
     <el-header class="header-box">
-      <div class="log" @click="getad">
+      <div class="log">
         谢红尘
         <div class="userInfo">
-          <el-icon class="icon" @click="goUserInfo(1)"><Discount /></el-icon>
-          <el-icon class="icon" @click="goUserInfo(1)"
+          <el-icon size="50" class="icon" @click="goUserInfo(1)"
+            ><Discount
+          /></el-icon>
+          <el-icon size="50" class="icon" @click="goUserInfo(2)"
             ><ChatDotRound
           /></el-icon>
-          <el-icon class="icon" @click="goUserInfo(1)"
+          <el-icon size="50" class="icon" @click="goUserInfo(3)"
             ><ChatDotRound
           /></el-icon>
         </div>
@@ -48,7 +50,6 @@
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { userInfo } from "@/utils/user.ts";
-
 
 const activeIndex = ref("home");
 const menuList = reactive([
@@ -119,6 +120,7 @@ const exit = () => {
 .header-box {
   line-height: 60px;
   display: flex;
+  color: red;
 
   .log {
     text-align: center;
@@ -154,9 +156,11 @@ const exit = () => {
     flex: 1;
     display: flex;
     justify-content: center;
+    --el-menu-active-color: red;
     .el-menu-item {
       display: flex;
       align-items: center;
+      color: yellow;
       .el-icon {
         margin-right: 5px;
       }
