@@ -1,8 +1,10 @@
 <template>
-  <Header />
-  <el-main>
-    <router-view></router-view>
-  </el-main>
+  <div class="background">
+    <Header />
+    <el-main>
+      <router-view></router-view>
+    </el-main>
+  </div>
 </template>
 
 <script setup lang="ts">

@@ -43,6 +43,12 @@
                   @click.stop="clickTag(i)"
                   :key="i"
                 >
+                <el-tag
+                  class="tag"
+                  v-for="i in item.tag"
+                  @click.stop="clickTag(i)"
+                  :key="i"
+                >
                   {{ i }}
                 </el-tag>
               </div>
@@ -50,17 +56,28 @@
           </div>
         </div>
       </div>
-      <!-- <el-pagination
+      <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
         class="pagination"
         background
-        layout="prev, pager, next"
+        :page-sizes="[5, 10, 20, 30]"
+        layout="total, sizes, prev, pager, next, jumper"
         :total="blogList.length"
-      /> -->
+        @size-change="sizeChange"
+        @current-change="currentChange"
+      />
     </div>
     <div class="blog-right">
       <div class="blog-classification">
         <div class="class-title">分类</div>
         <div class="class-box">
+          <div
+            class="class-item"
+            v-for="item in classList"
+            @click="clickClass(item.title)"
+            :key="item.id"
+          >
           <div
             class="class-item"
             v-for="item in classList"
@@ -111,16 +128,16 @@ import api from '@/api'
 const number = ref<number>()
 
 const clickTag = (item: string) => {
-  selectblog('', item)
-}
+  selectblog("", item);
+};
 const clickClass = (item: string) => {
-  selectblog(item, '')
-}
+  selectblog(item, "");
+};
 function selectblog(classType?: string, label?: string) {
-  console.log(classType)
-  console.log(label)
+  console.log(classType);
+  console.log(label);
 }
-const router = useRouter()
+const router = useRouter();
 const goDetail = (id: number) => {
   router.push(`/detail?id=${id}`)
 }
@@ -225,7 +242,7 @@ onMounted(() => {
     width: 50%;
     height: 100%;
     padding: 20px;
-    border: 30px;
+    box-sizing: border-box;
     background-color: #fff;
     border-radius: 10px;
     overflow: scroll;
@@ -250,6 +267,7 @@ onMounted(() => {
           padding: 5px;
           width: 150px;
           height: 100%;
+          box-sizing: border-box;
 
           img {
             width: 100%;
@@ -280,6 +298,7 @@ onMounted(() => {
             height: 20px;
             margin: 5px;
             display: flex;
+            align-items: center;
 
             .user-img {
               width: 20px;
@@ -318,7 +337,7 @@ onMounted(() => {
     }
 
     .pagination {
-      padding: 10px 0;
+      padding-top: 20px;
       display: flex;
       width: 100%;
       justify-content: center;
@@ -329,6 +348,8 @@ onMounted(() => {
     flex-direction: column;
     width: 20%;
     padding: 0 20px;
+    position: fixed;
+    right: 30px;
 
     .blog-classification {
       background-color: #fff;
@@ -336,6 +357,7 @@ onMounted(() => {
       height: 340px;
       margin-bottom: 20px;
       padding: 5px;
+      overflow: hidden;
       overflow: hidden;
 
       .class-title {

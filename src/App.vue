@@ -9,7 +9,4 @@ body {
   padding: 0;
   margin: 0;
 }
-#app {
-  background-color: antiquewhite;
-}
 </style>
