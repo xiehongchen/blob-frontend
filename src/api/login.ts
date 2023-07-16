@@ -1,21 +1,21 @@
-import request from "@/utils/request.ts";
+import request from '@/utils/request.ts'
 
 interface loginFormData {
-  username: string;
-  password: string;
+  username: string
+  password: string
 }
 interface ResponseData {
-  code: number;
-  message: string;
-  ok: boolean;
+  code: number
+  message: string
+  ok: boolean
 }
 
 interface loginResponseData extends ResponseData {
-  token: string;
+  token: string
 }
 enum API {
-  LOGIN_URL = "/users/logIn",
+  LOGIN_URL = '/users/logIn',
 }
 
 export const reqLogin = (data: loginFormData) =>
-  request.get<any, loginResponseData>(API.LOGIN_URL, { params: data });
+  request.get<any, loginResponseData>(API.LOGIN_URL, { params: data })

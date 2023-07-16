@@ -20,3 +20,10 @@ export function getBlogList() {
     method: 'get',
   })
 }
+
+export function getBlogDetail() {
+  return request({
+    url: `/home/markdown`,
+    method: 'get',
+  })
+}

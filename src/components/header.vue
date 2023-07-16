@@ -16,21 +16,34 @@
         </div>
       </div>
 
-    <el-menu :default-active="activeIndex" class="menu-box" mode="horizontal" background-color="rgba(0,0,0,0)">
-      <el-menu-item v-for="item in menuList" @click="gotRoute(item.path)" :index="item.path" :key="item.id">
-        <el-icon>
-              <component :is="icon[item.id - 1 ]"></component>
-            </el-icon>
-        {{ item.authName }}
-      </el-menu-item>
-    </el-menu>
+      <el-menu
+        :default-active="activeIndex"
+        class="menu-box"
+        mode="horizontal"
+        background-color="rgba(0,0,0,0)"
+      >
+        <el-menu-item
+          v-for="item in menuList"
+          @click="gotRoute(item.path)"
+          :index="item.path"
+          :key="item.id"
+        >
+          <el-icon>
+            <component :is="icon[item.id - 1]"></component>
+          </el-icon>
+          {{ item.authName }}
+        </el-menu-item>
+      </el-menu>
 
-    <div v-if="userInfo" class="login">登录</div>
-    <div v-else class="view-box my-flex">
-        <div class="background">后台</div>
-        <div class="exit">退出</div>
-    </div>
-  </el-header>
+      <div></div>
+
+      <div v-if="!userInfo" class="login button" @click="login">登录</div>
+      <div v-else class="view-box my-flex button">
+        <div class="background" @click="back">后台</div>
+        <div class="exit" @click="exit">退出</div>
+      </div>
+    </el-header>
+  </el-affix>
 </template>
 
 <script setup lang="ts">
@@ -68,7 +81,7 @@ const menuList = reactive([
 ])
 const icon = reactive(['House', 'ChatSquare', 'Folder', 'Document', 'User'])
 
-const router = useRouter();
+const router = useRouter()
 const gotRoute = (path: string) => {
   router.push(path)
 }
@@ -100,7 +113,6 @@ const exit = () => {
 }
 </script>
 
-<style scoped lang="scss">
 <style scoped lang="scss">
 .el-menu--horizontal {
   border-bottom: 0;

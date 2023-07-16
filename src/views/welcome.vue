@@ -11,4 +11,10 @@
 import Header from '@/components/header.vue'
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.background {
+  background-image: url('@/assets/back.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+</style>

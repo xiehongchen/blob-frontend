@@ -35,23 +35,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import api from "@/api";
-import { ElMessage } from "element-plus";
-import { useRouter } from "vue-router";
-const router = useRouter();
-const name = ref("");
-const password = ref("");
+import { ref } from 'vue'
+import api from '@/api'
+import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const name = ref('')
+const password = ref('')
 const login = async () => {
   if (isLogin.value) {
-    isLogin.value = false;
-    return;
+    isLogin.value = false
+    return
   }
   if (!name.value || !password.value) {
     ElMessage({
-      message: "账号密码不能为空",
-      type: "warning",
-    });
+      message: '账号密码不能为空',
+      type: 'warning',
+    })
   }
   await api.login
     .reqLogin({
@@ -60,18 +60,18 @@ const login = async () => {
     })
     .then((res) => {
       if (res.token) {
-        localStorage.setItem("token", res.token);
-        router.push("/home");
+        localStorage.setItem('token', res.token)
+        router.push('/home')
       }
-    });
-};
-const isLogin = ref(false);
+    })
+}
+const isLogin = ref(false)
 const register = () => {
   if (!isLogin.value) {
-    isLogin.value = true;
-    return;
+    isLogin.value = true
+    return
   }
-};
+}
 </script>
 
 <style scoped lang="scss">
