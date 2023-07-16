@@ -5,9 +5,8 @@
   </el-main>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 import Header from '@/components/header.vue'
 </script>
 
-<style scoped lang='scss'>
-</style>
+<style scoped lang="scss"></style>

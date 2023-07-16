@@ -10,7 +10,12 @@
         </div>
       </div>
       <div class="card-box">
-        <div class="card" v-for="item in blogList" @click="goDetail(item.id)" :key="item.id">
+        <div
+          class="card"
+          v-for="item in blogList"
+          @click="goDetail(item.id)"
+          :key="item.id"
+        >
           <div class="card-img">
             <img src="@/assets/vue.svg" />
           </div>
@@ -32,7 +37,12 @@
                 {{ item.time }}
               </div>
               <div class="tags">
-                <el-tag class="tag" v-for="i in item.tag" @click.stop="clickTag(i)" :key="i">
+                <el-tag
+                  class="tag"
+                  v-for="i in item.tag"
+                  @click.stop="clickTag(i)"
+                  :key="i"
+                >
                   {{ i }}
                 </el-tag>
               </div>
@@ -51,7 +61,12 @@
       <div class="blog-classification">
         <div class="class-title">分类</div>
         <div class="class-box">
-          <div class="class-item" v-for="item in classList" @click="clickClass(item.title)" :key="item.id">
+          <div
+            class="class-item"
+            v-for="item in classList"
+            @click="clickClass(item.title)"
+            :key="item.id"
+          >
             <div class="class-img">
               <img src="@/assets/vue.svg" />
             </div>
@@ -67,15 +82,21 @@
       <div class="blog-label">
         <div class="label-title">标签</div>
         <div class="container">
-          <div class="tag-box">
-            <span class="tag-item" v-for="item in styleTag" :key="item.id" :style="{
-              fontWeight: item.weight,
-              fontSize: item.size + 'px',
-              color: item.color,
-              height: item.size + 'px',
-            }" @click="clickTag(item.title)">
+          <div class="tag-box" ref="tagBox">
+            <!-- <div
+              class="tag-item"
+              v-for="item in styleTag"
+              :key="item.id"
+              :style="{
+                fontWeight: item.weight,
+                fontSize: item.size + 'px',
+                color: item.color,
+                height: item.size + 'px',
+              }"
+              @click="clickTag(item.title)"
+            >
               {{ item.title }}
-            </span>
+            </div> -->
           </div>
         </div>
       </div>
@@ -84,155 +105,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
-import { useRouter } from 'vue-router';
-const number = ref(111)
-const blogList = reactive([
-  {
-    id: 1,
-    title: '123',
-    introduction:
-      '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑dsad大大大大adddd啊实打实大师大师d啊实打实大师dddddddddsad撒啊实打实大师大多asdasss',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 2,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 3,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 4,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 5,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 6,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 7,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 8,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 9,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 10,
-    title: '123',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-  {
-    id: 11,
-    title: '11',
-    introduction: '只要卡住这个17毫秒，每隔17毫秒进行操作，就能确保动画丝滑',
-    author: 'xie',
-    imgUrl: '@/assets/vue.svg',
-    time: '2000-10-1',
-    tag: ['abc', 'bda', 'dada'],
-  },
-])
-const classList = reactive([
-  {
-    id: 1,
-    imgUrl: '',
-    title: 'Java',
-    number: 11,
-  },
-  {
-    id: 2,
-    imgUrl: '',
-    title: 'JavaScript',
-    number: 11,
-  },
-  {
-    id: 3,
-    imgUrl: '',
-    title: 'Python',
-    number: 11,
-  },
-  {
-    id: 4,
-    imgUrl: '',
-    title: 'c++',
-    number: 11,
-  },
-  {
-    id: 5,
-    imgUrl: '',
-    title: 'c++',
-    number: 11,
-  },
-  {
-    id: 6,
-    imgUrl: '',
-    title: 'c++',
-    number: 11,
-  },
-  {
-    id: 7,
-    imgUrl: '',
-    title: 'c++',
-    number: 11,
-  },
-])
+import { ref, onMounted, Ref } from 'vue'
+import { useRouter } from 'vue-router'
+import api from '@/api'
+const number = ref<number>()
+
 const clickTag = (item: string) => {
   selectblog('', item)
 }
@@ -247,115 +124,79 @@ const router = useRouter()
 const goDetail = (id: number) => {
   router.push(`/detail?id=${id}`)
 }
-const tagList = reactive([
-  {
-    id: 0,
-    title: 'css',
-    number: 12,
-  },
-  {
-    id: 1,
-    title: 'css',
-    number: 12,
-  },
-  {
-    id: 2,
-    title: 'js',
-    number: 16,
-  },
-  {
-    id: 3,
-    title: 'ts',
-    number: 4,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-  {
-    id: 5,
-    title: 'c',
-    number: 15,
-  },
-  {
-    id: 6,
-    title: 'py',
-    number: 25,
-  },
-  {
-    id: 7,
-    title: 'c++',
-    number: 5,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-  {
-    id: 4,
-    title: 'java',
-    number: 5,
-  },
-])
-const styleTag = ref([
-  {
-    id: 0,
-    title: '',
-    number: 0,
-    size: 0,
-    weight: 0,
-    color: '',
-  },
-])
-let weight = 0
-let size = 0
-onMounted(() => {
-  tagList.forEach((item) => {
-    console.log(item)
-    if (item.number < 5) {
-      size = 10
-      weight = 300
-    } else if (item.number < 10) {
-      size = 15
-      weight = 400
-    } else {
-      size = 20
-      weight = 600
-    }
-    styleTag.value.push({
-      id: item.id,
-      title: item.title,
-      number: item.number,
-      size: size,
-      weight: weight,
-      color:
-        'rgb(' +
-        parseInt(Math.random() * 255 + '') +
-        ',' +
-        parseInt(Math.random() * 255 + '') +
-        ',' +
-        parseInt(Math.random() * 255 + '') +
-        ')',
+const blogList = ref<any>([])
+function getBlogList() {
+  api.blog.getBlogList().then((res) => {
+    blogList.value = res
+    number.value = blogList.value.length
+    blogList.value.forEach((item: any) => {
+      item.tag = item.tag.split(',')
     })
   })
-  styleTag.value.shift()
+}
+
+const classList = ref<any>([])
+function getClassify() {
+  api.blog.getClassify().then((res) => {
+    classList.value = res
+  })
+}
+const styleTag = ref<any>([])
+const tagBox: Ref<HTMLElement | null> = ref(null)
+console.log(tagBox)
+function getTags() {
+  api.blog.getTags().then((res) => {
+    styleTag.value = res
+    styleTag.value.forEach((item: any) => {
+      const div = document.createElement('div')
+      div.textContent = item.title
+      div.style.fontSize = `${item.number}px`
+      div.style.color = getRandomColor()
+      div.style.position = 'absolute'
+      div.style.cursor = 'pointer'
+      div.classList.add('item')
+      div.onclick = () => {
+        goDetail(item.id)
+      }
+      tagBox.value?.appendChild(div)
+
+      setTimeout(() => {
+        // const elemtnWidth = div.offsetWidth
+        // const elemtnHeight = div.offsetHeight
+
+        // console.log(elemtnWidth, elemtnHeight)
+        setRandomPosition(div)
+      }, 0)
+    })
+  })
+}
+// 随机生成颜色
+function getRandomColor() {
+  return '#' + Math.random().toString(16).slice(2, 8)
+}
+// 随机生成位置
+function setRandomPosition(element: HTMLElement) {
+  if (!tagBox.value) return
+  const containerWidth = tagBox.value.offsetWidth
+  const containerHeight = tagBox.value.offsetHeight
+  const elementWidth = element.offsetWidth
+  const elementHeight = element.offsetHeight
+
+  // 计算可用的最大左偏移和上偏移
+  const maxLeft = containerWidth - elementWidth
+  const maxTop = containerHeight - elementHeight
+
+  // 生成随机的左偏移和上偏移，并确保不超出边界
+  const randomLeft = Math.max(0, Math.min(maxLeft, Math.random() * maxLeft))
+  const randomTop = Math.max(0, Math.min(maxTop, Math.random() * maxTop))
+
+  element.style.left = `${randomLeft}px`
+  element.style.top = `${randomTop}px`
+}
+onMounted(() => {
+  getBlogList()
+  getTags()
+  getClassify()
 })
 </script>
 
@@ -363,6 +204,15 @@ onMounted(() => {
 ::-webkit-scrollbar {
   /*隐藏滚轮*/
   display: none;
+}
+
+.item {
+  position: absolute;
+  transition: all 0.3s;
+}
+
+.item:hover {
+  transform: scale(1.2);
 }
 
 .blog-box {
@@ -483,9 +333,10 @@ onMounted(() => {
     .blog-classification {
       background-color: #fff;
       border-radius: 10px;
-      height: 300px;
+      height: 340px;
       margin-bottom: 20px;
       padding: 5px;
+      overflow: hidden;
 
       .class-title {
         text-align: center;
@@ -495,7 +346,7 @@ onMounted(() => {
       }
 
       .class-box {
-        height: 250px;
+        height: 300px;
         overflow: scroll;
 
         .class-item {
@@ -535,17 +386,12 @@ onMounted(() => {
       }
 
       .container {
-        height: calc(100% - 30px);
+        height: 260px;
 
         .tag-box {
           width: 100%;
           height: 100%;
-
-          .tag-item {
-            margin: 5px;
-            cursor: pointer;
-            word-wrap: break-word;
-          }
+          position: relative;
         }
       }
     }
