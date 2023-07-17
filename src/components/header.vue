@@ -4,15 +4,15 @@
       <div class="log">
         谢红尘
         <div class="userInfo">
-          <el-icon size="50" class="icon" @click="goUserInfo(1)"
-            ><Discount
-          /></el-icon>
-          <el-icon size="50" class="icon" @click="goUserInfo(2)"
-            ><ChatDotRound
-          /></el-icon>
-          <el-icon size="50" class="icon" @click="goUserInfo(3)"
-            ><ChatDotRound
-          /></el-icon>
+          <el-icon size="50" class="icon" @click="goUserInfo(1)">
+            <Discount />
+          </el-icon>
+          <el-icon size="50" class="icon" @click="goUserInfo(2)">
+            <ChatDotRound />
+          </el-icon>
+          <el-icon size="50" class="icon" @click="goUserInfo(3)">
+            <ChatDotRound />
+          </el-icon>
         </div>
       </div>
 
@@ -47,70 +47,70 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import { useRouter } from "vue-router";
-import { userInfo } from "@/utils/user.ts";
+import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { userInfo } from '@/utils/user.ts'
 
-const activeIndex = ref("home");
+const activeIndex = ref('home')
 const menuList = reactive([
   {
     id: 1,
-    authName: "首页",
-    path: "home",
+    authName: '首页',
+    path: 'home',
   },
   {
     id: 2,
-    authName: "随笔",
-    path: "essay",
+    authName: '随笔',
+    path: 'essay',
   },
   {
     id: 3,
-    authName: "项目",
-    path: "project",
+    authName: '项目',
+    path: 'project',
   },
   {
     id: 4,
-    authName: "留言",
-    path: "message",
+    authName: '留言',
+    path: 'message',
   },
   {
     id: 5,
-    authName: "关于我",
-    path: "about",
+    authName: '关于我',
+    path: 'about',
   },
-]);
-const icon = reactive(["House", "ChatSquare", "Folder", "Document", "User"]);
+])
+const icon = reactive(['House', 'ChatSquare', 'Folder', 'Document', 'User'])
 
-const router = useRouter();
+const router = useRouter()
 const gotRoute = (path: string) => {
-  router.push(path);
-};
+  router.push(path)
+}
 // const userInfo = localStorage.getItem("userInfo");
 // console.log(userInfo);
 
 const goUserInfo = (index: number) => {
-  let url = "";
+  let url = ''
   if (index === 1) {
-    url = userInfo.gitHubUrl;
+    url = userInfo.gitHubUrl
   } else if (index === 2) {
-    url = userInfo.giteeUrl;
+    url = userInfo.giteeUrl
   }
   // 新窗口
-  window.open(url);
+  window.open(url)
   // 当前窗口
   // window.location.href = url;
-};
+}
 const login = () => {
-  router.push("/login");
-};
+  router.push('/login')
+}
 const back = () => {
-  router.push("/admin");
-};
+  router.push('/admin')
+}
 
 const exit = () => {
-  localStorage.clear();
-  router.push("/login");
-};
+  localStorage.clear()
+  router.push('/login')
+}
 </script>
 
 <style scoped lang="scss">

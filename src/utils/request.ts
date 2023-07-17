@@ -1,48 +1,60 @@
-import axios from "axios";
-import { ElMessage } from "element-plus";
+import axios from 'axios'
+import { ElMessage } from 'element-plus'
 
 const request = axios.create({
-  baseURL: "/api",
+  baseURL: '/api',
   timeout: 5000,
-});
+})
 
 request.interceptors.request.use((config) => {
-  console.log(config);
-  return config;
-});
+  return config
+})
+
+const statusMap: { [key: number]: string } = {
+  400: '请求错误',
+  401: '未授权，请登录',
+  403: '拒绝访问',
+  404: '请求地址出错',
+  408: '请求超时',
+  500: '服务器内部错误',
+  501: '服务未实现',
+  502: '网关错误',
+  503: '服务不可用',
+  504: '网关超时',
+}
 
 request.interceptors.response.use(
   (response) => {
-    return response.data;
+    return response.data
   },
   (error) => {
-    console.log(error);
-    let message = "";
-    //http状态码
-    const status = error.response.status;
-    switch (status) {
-      case 401:
-        message = "TOKEN过期";
-        break;
-      case 403:
-        message = "无权访问";
-        break;
-      case 404:
-        message = "请求地址错误";
-        break;
-      case 500:
-        message = "服务器出现问题";
-        break;
-      default:
-        message = "网络出现问题";
-        break;
+    console.log('err' + error)
+    let message = ''
+    if (error.response) {
+      message = statusMap[error.response.status] || '未知错误'
+    } else {
+      message = error.message
     }
-    //提示错误信息
     ElMessage({
-      type: "error",
       message,
-    });
-    return Promise.reject(error);
-  }
-);
-export default request;
+      type: 'error',
+      duration: 5 * 1000,
+    })
+    return Promise.reject(error)
+  },
+)
+
+// console.log(response)
+// const res = response.data
+// if (res.status !== 200) {
+//   ElMessage({
+//     message: res.message || 'Error',
+//     type: 'error',
+//     duration: 5 * 1000,
+//   })
+//   return Promise.reject(new Error(res.message || 'Error'))
+// } else {
+//   return res
+// }
+
+export default request
