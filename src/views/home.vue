@@ -37,6 +37,7 @@ function selectBlog(classType?: string, label?: string) {
   height: 100%;
   display: flex;
   justify-content: center;
+
   .blog-right {
     flex-direction: column;
     width: 20%;
