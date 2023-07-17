@@ -25,6 +25,7 @@ marked.setOptions({
   // 高亮的语法规范
   highlight: (code, lang) => hljs.highlight(code, { language: lang }).value,
 })
+console.log('111')
 const value = ref('')
 const markdownToHtml = shallowRef('')
 markdownToHtml.value = marked(value.value)
