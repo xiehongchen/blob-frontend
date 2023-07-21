@@ -22,4 +22,7 @@ app.use(router)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
+
+// import clickHtml from './directives/clickHtml'
+// app.directive('clickHtml', clickHtml)
 app.mount('#app')

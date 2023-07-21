@@ -1,97 +1,141 @@
 <template>
-  <!-- <el-input
-    type="textarea"
-    v-model="value"
-    @input="change"
-    :autosize="true"
-  ></el-input> -->
-  <div class="box">
-    <div v-html="markedContent" class="markdown-context"></div>
-    <div v-html="markdownToHtml" class="markdown-context"></div>
+  <div class="box" ref="box">
+    <div
+      v-html="markdownToHtml"
+      ref="markedHtml"
+      class="markdown-context"
+      @click="handleButtonClick($event)"
+    ></div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { marked } from 'marked'
-import MarkdownIt from 'markdown-it'
-import { ref, onMounted } from 'vue'
+import { ref, onBeforeMount, nextTick, onUnmounted } from 'vue'
+import ClipboardJS from 'clipboard'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/monokai-sublime.css'
 import api from '@/api'
+import { ElMessage } from 'element-plus'
 
-const md = new MarkdownIt({
-  highlight: (code, lang) => {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return `<pre class="hljs"><code>${
-          hljs.highlight(lang, code).value
-        }</code></pre>`
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    return `<pre class="hljs"><code>${md.utils.escapeHtml(code)}</code></pre>`
-  },
-})
-const value = ref('')
+let clipboard: ClipboardJS | null = null
 const markdownToHtml = ref('')
-const markedContent = ref('')
-onMounted(() => {
+const markedHtml = ref<Element>()
+const box = ref<Element>()
+const type = ref('')
+onBeforeMount(async () => {
   api.blog.getBlogDetail().then((res) => {
-    value.value = res.data
-    markdownToHtml.value = marked(value.value, {
+    // console.log(res)
+    markdownToHtml.value = marked(res.data, {
       renderer: renderer,
-      headerIds: false,
       mangle: false,
+      headerIds: false,
     })
-    markedContent.value = md.render(value.value)
+    // console.log(markdownToHtml.value)
+    // markdownToHtml.value = markdownToHtml.value.replace(
+    //   '<pre><code class="hljs js">',
+    //   '<pre><code class="hljs js">',
+    // )
   })
+  await nextTick()
+  // console.log(box)
+  // console.log(markedHtml)
+})
+onUnmounted(() => {
+  if (clipboard) {
+    clipboard.destroy()
+  }
 })
 
-<<<<<<< Updated upstream
-const render = new marked.Renderer()
-marked.setOptions({
-  renderer: render, // 这是必填项
-  gfm: true, // 启动类似于Github样式的Markdown语法
-  pedantic: false, // 只解析符合Markdwon定义的，不修正Markdown的错误
-  sanitize: false, // 原始输出，忽略HTML标签（关闭后，可直接渲染HTML标签）
-  // 高亮的语法规范
-  highlight: (code, lang) => hljs.highlight(code, { language: lang }).value,
-})
-console.log('111')
-const value = ref('')
-const markdownToHtml = shallowRef('')
-markdownToHtml.value = marked(value.value)
-
-const change = (value: string) => {
-  markdownToHtml.value = marked(value)
-=======
 const renderer = new marked.Renderer()
-// const toc = new MarkedToc()
 renderer.code = (code, language) => {
   const validLanguage = hljs.getLanguage(language as string)
     ? (language as string)
     : 'plaintext'
+  type.value = validLanguage
   const highlightedCode = hljs.highlight(code, {
     language: validLanguage,
   }).value
-  return `<pre><code class="hljs ${validLanguage}">${highlightedCode}</code></pre>`
->>>>>>> Stashed changes
+  return `<pre><div class="code-header"><div class="code-language">${validLanguage}</div><div data-clickable="true" class="code-copy">复制</div></div><code class="hljs ${validLanguage}">${highlightedCode}</code></pre>`
+}
+const handleButtonClick = (event: any) => {
+  const target = event.target
+  // console.log(event)
+  // 判断点击的元素是否为添加了 data-clickable 属性的按钮
+  if (target && target.dataset.clickable === 'true') {
+    const codeText = target.parentElement.nextElementSibling.textContent
+    // console.log('Code Text:', codeText)
+    // console.log('Clicked:', target.textContent)
+    if (clipboard) {
+      clipboard.destroy() // 销毁之前的 clipboard 实例
+    }
+    clipboard = new ClipboardJS('.code-copy', {
+      text: () => codeText,
+    })
+    clipboard.on('success', (e: any) => {
+      console.log(e)
+      ElMessage({
+        message: '复制成功',
+        type: 'success',
+      })
+      e.clearSelection() // 清除选中状态
+    })
+
+    // 监听复制失败事件
+    clipboard.on('error', () => {
+      ElMessage({
+        message: '复制成功',
+        type: 'error',
+      })
+    })
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .box {
-  display: flex;
-  margin: 0 auto;
-  width: 100%;
-  background-color: #fff;
+  margin: 10px 200px;
+  height: 1000px;
+  font-size: 20px;
+
   .markdown-context {
     border: 1px solid;
-    height: 100%;
-    width: 50%;
-    margin: 0 5px;
+    background-color: white;
+    padding: 0 20px;
+  }
+}
+
+:deep(blockquote) {
+  margin: 0;
+  border-left: 3px solid gray;
+
+  p {
+    margin: 0 0 0 5px;
+  }
+}
+
+:deep(li) {
+  code {
+    background-color: antiquewhite;
+  }
+}
+
+:deep(.code-header) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(39, 39, 50);
+  color: rgb(160, 160, 172);
+  padding: 10px 20px 0;
+  z-index: 10;
+
+  .code-language {
     font-size: 20px;
+    font-weight: bold;
+  }
+
+  .code-copy {
+    cursor: pointer;
   }
 }
 </style>

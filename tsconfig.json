@@ -10,6 +10,7 @@
       //路径映射，相对于baseUrl
       "@/*": ["src/*"]
     },
+    "allowSyntheticDefaultImports": true,
 
     /* Bundler mode */
     "moduleResolution": "Node",
